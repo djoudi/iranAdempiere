@@ -268,6 +268,7 @@ public final class VPanel extends CTabbedPane
 			if (X_AD_FieldGroup.FIELDGROUPTYPE_Collapse.equals(fieldGroupType))
 			{
 				CollapsiblePanel panel = (CollapsiblePanel) m_tablist.get(fieldGroup);
+				LocaleUtil.applyComponentOrientation(panel);
 				panel.getCollapsiblePane().setCollapsed(mField.getIsCollapsedByDefault());
 			}
 			sameLine = false;
@@ -298,11 +299,13 @@ public final class VPanel extends CTabbedPane
 		if (fieldGroupType.equals(X_AD_FieldGroup.FIELDGROUPTYPE_Tab))
 		{
 			CPanel m_tab = (CPanel)m_tablist.get(fieldGroup);
+			LocaleUtil.applyComponentOrientation(m_tab);
 			m_tab.add(label, constraints);	
 		}			
 		else if (fieldGroupType.equals(X_AD_FieldGroup.FIELDGROUPTYPE_Collapse))
 		{
 			CollapsiblePanel m_tab = (CollapsiblePanel) m_tablist.get(fieldGroup);
+			LocaleUtil.applyComponentOrientation(m_tab);
 			m_tab.getCollapsiblePane().getContentPane().add(label, constraints);
 		}
 		else // Label
@@ -397,6 +400,7 @@ public final class VPanel extends CTabbedPane
 		{
 
 			CPanel m_tab = new CPanel();
+			LocaleUtil.applyComponentOrientation(m_tab);
 			m_tab.setBackground(AdempierePLAF.getFormBackground());
 			String tpConstraints = defaultLayoutConstraints ;
 			MigLayout layout = new MigLayout(tpConstraints);
@@ -404,6 +408,7 @@ public final class VPanel extends CTabbedPane
 			m_tab.setLayout(layout);
 			m_tab.setName(fieldGroup);
 			CPanel dummy = new CPanel();
+			LocaleUtil.applyComponentOrientation(dummy);
 			dummy.setLayout(new BorderLayout());
 			dummy.add(m_tab, BorderLayout.NORTH);
 			dummy.setName(m_tab.getName());
@@ -415,6 +420,7 @@ public final class VPanel extends CTabbedPane
 		{				  
 			CollapsiblePanel collapsibleSection = new CollapsiblePanel(fieldGroup);
 			JXCollapsiblePane m_tab = collapsibleSection.getCollapsiblePane();
+			LocaleUtil.applyComponentOrientation(m_tab);
 			m_tab.setAnimated(false);
 			m_tab.getContentPane().setBackground(AdempierePLAF.getFormBackground());
 			

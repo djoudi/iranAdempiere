@@ -67,7 +67,6 @@ public class CollapsiblePanel extends JPanel {
 		setSeparatorColor(new Color(214, 223, 247));
 
 		collapsible = new JXCollapsiblePane();
-		LocaleUtil.applyComponentOrientation(collapsible);
 		collapsible.getContentPane().setBackground(
 				AdempierePLAF.getFormBackground());
 		collapsible.setBorder(new CompoundBorder(separatorBorder, collapsible
