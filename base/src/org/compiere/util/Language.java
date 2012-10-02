@@ -28,6 +28,8 @@ import java.util.logging.Logger;
 
 import javax.print.attribute.standard.MediaSize;
 
+import org.omidp.util.LocaleUtil;
+
 /**
  *  Language Management.
  *
@@ -653,10 +655,14 @@ public class Language implements Serializable
 	 */
 	public SimpleDateFormat getDateTimeFormat()
 	{
-		SimpleDateFormat retValue = (SimpleDateFormat)DateFormat.getDateTimeInstance
-			(DateFormat.MEDIUM, DateFormat.LONG, m_locale);
+		if(LocaleUtil.isIranLocale()){
+			return new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		}else{
+			return (SimpleDateFormat)DateFormat.getDateTimeInstance
+					(DateFormat.MEDIUM, DateFormat.LONG, m_locale);
+		}
+		
 	//	log.finer("Pattern=" + retValue.toLocalizedPattern() + ", Loc=" + retValue.toLocalizedPattern());
-		return retValue;
 	}	//	getDateTimeFormat
 
 	/**
@@ -666,8 +672,12 @@ public class Language implements Serializable
 	 */
 	public SimpleDateFormat getTimeFormat()
 	{
-		return (SimpleDateFormat)DateFormat.getTimeInstance
-			(DateFormat.LONG, m_locale);
+		if(LocaleUtil.isIranLocale()){
+			return new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		}else{
+			return (SimpleDateFormat)DateFormat.getTimeInstance
+					(DateFormat.LONG, m_locale);
+		}
 	}	//	getTimeFormat
 
 	/**

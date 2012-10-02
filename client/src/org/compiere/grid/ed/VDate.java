@@ -386,10 +386,13 @@ public class VDate extends JComponent
 		if (m_text == null)
 			return null;
 		String value = m_text.getText();
-		if(LocaleUtil.isIranLocale())
-			 value = new PersianCalendar().SolarToGregorian(m_text.getText());
 		if (value == null || value.length() == 0)
 			return null;
+		
+		if (LocaleUtil.isIranLocale()) {
+			PersianCalendar pc = new PersianCalendar();
+			value = pc.SolarToGregorian(value.toString());
+		}
 		//
 		Timestamp ts = null;
 		try

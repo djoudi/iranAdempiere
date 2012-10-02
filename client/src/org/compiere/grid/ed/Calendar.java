@@ -64,6 +64,7 @@ import org.compiere.util.KeyNamePair;
 import org.compiere.util.Language;
 import org.compiere.util.Msg;
 
+import org.omidp.util.LocaleUtil;
 import org.omidp.util.PersianCalendar;
 
 /**
@@ -167,7 +168,6 @@ public class Calendar extends CDialog implements ActionListener, MouseListener,
 
 	/** Initial Persian Calendar */
 	PersianCalendar pc = new PersianCalendar();
-	Locale iranLoc = new Locale("fa", "IR");
 	int[] SOLARDAYSINMONTH = { 31, 31, 31, 31, 31, 31, 30, 30, 30, 30, 30, 29 };
 
 	/**
@@ -178,10 +178,11 @@ public class Calendar extends CDialog implements ActionListener, MouseListener,
 	private void jbInit() throws Exception {
 		this.addKeyListener(this);
 		//
-		if (!iranLoc.equals(Language.getLoginLanguage().getLocale()))
-			cYear = new JSpinner(new SpinnerNumberModel(2000, 1900, 2100, 1));
+		if (LocaleUtil.isIranLocale())
+			cYear = new JSpinner(new SpinnerNumberModel(1365, 1330, 1450, 1));
 		else
-			cYear = new JSpinner(new SpinnerNumberModel(1365, 1330, 1400, 1));
+			cYear = new JSpinner(new SpinnerNumberModel(2000, 1900, 2100, 1));
+			
 		
 		//
 		mainPanel.setLayout(mainLayout);
@@ -315,7 +316,7 @@ public class Calendar extends CDialog implements ActionListener, MouseListener,
 
 		// Months -> 0=Jan 12=_
 		String[] months = formatDate.getDateFormatSymbols().getMonths();
-		if (iranLoc.equals(loc)) {
+		if (LocaleUtil.isIranLocale(loc)) {
 			months[0] = "\u0641\u0631\u0648\u0631\u062f\u06cc\u0646"; // Farvardin
 			months[1] = "\u0627\u0631\u062f\u064a\u0628\u0647\u0634\u062a"; // Ordibehesht
 			months[2] = "\u062e\u0631\u062f\u0627\u062f"; // Khordad
@@ -344,7 +345,7 @@ public class Calendar extends CDialog implements ActionListener, MouseListener,
 		// 1
 		// is
 		// Sunday
-		if (iranLoc.equals(loc)) {
+		if (LocaleUtil.isIranLocale(loc)) {
 			days[1] = "\u0634\u0646\u0628\u0647"; // shanbe
 			days[2] = "\u06cc\u06a9\u0634\u0646\u0628\u0647"; // yekshanbe
 			days[3] = "\u062f\u0648\u0634\u0646\u0628\u0647"; // doshanbe
@@ -392,14 +393,14 @@ public class Calendar extends CDialog implements ActionListener, MouseListener,
 		dayPanel.setVisible(m_displayType != DisplayType.Time);
 
 		// Set To persian
-		if (iranLoc.equals(loc)) {
+		if (LocaleUtil.isIranLocale(loc)) {
 			String gregorianDate = m_currentYear + "/" + m_currentMonth + "/"
 					+ m_currentDay;			
 			m_currentYear = pc.getSolarYear(gregorianDate);
 			m_currentMonth = pc.getSolarMonth(gregorianDate);
 			m_currentDay = pc.getSolarDay(gregorianDate);			
 		}
-		dayPanel.applyComponentOrientation(ComponentOrientation.getOrientation(Language.getLoginLanguage().getLocale()));
+		LocaleUtil.applyComponentOrientation(dayPanel);
 
 		// update UI from m_current...
 		m_setting = false;
@@ -488,7 +489,7 @@ public class Calendar extends CDialog implements ActionListener, MouseListener,
 
 		// --- Set Day
 		// what is the first day in the selected month?
-		if (iranLoc.equals(Language.getLoginLanguage().getLocale())) {
+		if (LocaleUtil.isIranLocale()) {
 			String solarDate = String.valueOf(m_currentYear) + "/"
 					+ String.valueOf(m_currentMonth) + "/" + "1";
 			String gregorianDate = pc.SolarToGregorian(solarDate);
@@ -509,7 +510,7 @@ public class Calendar extends CDialog implements ActionListener, MouseListener,
 		int lastDate = m_calendar.getActualMaximum(java.util.Calendar.DATE);
 
 		// convert to index
-		if (!(iranLoc.equals(Language.getLoginLanguage().getLocale())))
+		if (!LocaleUtil.isIranLocale())
 			dayOne -= m_firstDay;
 		else {
 			lastDate = SOLARDAYSINMONTH[m_currentMonth - 1];
@@ -594,7 +595,7 @@ public class Calendar extends CDialog implements ActionListener, MouseListener,
 	 */
 	public Timestamp getTimestamp() {
 		// log.config( "Calendar.getTimeStamp");
-		if (iranLoc.equals(Language.getLoginLanguage().getLocale())) {
+		if (LocaleUtil.isIranLocale()) {
 			String solarDate = String.valueOf(m_currentYear) + "/"
 					+ String.valueOf(m_currentMonth) + "/"
 					+ String.valueOf(m_currentDay);
@@ -667,7 +668,7 @@ public class Calendar extends CDialog implements ActionListener, MouseListener,
 				m_currentMonth = m_calendar.get(java.util.Calendar.MONTH) + 1;
 				m_currentYear = m_calendar.get(java.util.Calendar.YEAR);
 				//change to gregorian date
-				if(Language.getLoginLanguage().getLocale().equals(new Locale("fa","IR"))){					
+				if(LocaleUtil.isIranLocale()){					
 					int sYear = pc.getSolarYear(m_currentYear, m_currentMonth, m_currentDay);
 					int sMonth = pc.getSolarMonth(m_currentYear, m_currentMonth, m_currentDay);
 					int sDay = pc.getSolarDay(m_currentYear, m_currentMonth, m_currentDay);					
