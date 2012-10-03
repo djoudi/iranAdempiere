@@ -34,6 +34,7 @@ import javax.swing.KeyStroke;
 import net.miginfocom.layout.BoundSize;
 import net.miginfocom.layout.ComponentWrapper;
 import net.miginfocom.layout.ConstraintParser;
+import net.miginfocom.layout.LC;
 import net.miginfocom.layout.LayoutCallback;
 import net.miginfocom.layout.UnitValue;
 import net.miginfocom.swing.MigLayout;
@@ -428,8 +429,18 @@ public final class VPanel extends CTabbedPane
 			// 0 inset left and right as this is a nested panel
 			// 0 inset top because of the struts added below
 			cpConstraints += ", ins 0 0 n 0";
-
-			MigLayout layout = new MigLayout(cpConstraints);
+			
+			MigLayout layout = null;
+			
+			if(LocaleUtil.isIranLocale()){
+				LC lc = new LC();
+				lc.setLeftToRight(false);
+				//TODO : high expansion in y
+				layout = new MigLayout(lc);
+			}else{
+				layout = new MigLayout(cpConstraints);
+			}
+			
 			layout.addLayoutCallback(callback);
 			
 			collapsibleSection.setName(fieldGroup);
@@ -729,6 +740,7 @@ public final class VPanel extends CTabbedPane
 		if(section != null)
 		{				
 			APanel panel = new APanel(detail, m_WindowNo);
+			LocaleUtil.applyComponentOrientation(panel);
 			String name = detail.getMTab().getName() + "";		
 			section.setTitle(name);
 			section.getCollapsiblePane().getContentPane().setLayout(new BorderLayout());

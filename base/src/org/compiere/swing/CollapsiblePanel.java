@@ -81,6 +81,7 @@ public class CollapsiblePanel extends JPanel {
 				.getIcon("Tree.collapsedIcon"));
 
 		link = new JXHyperlink(toggleAction);
+		LocaleUtil.applyComponentOrientation(link);
 		link.setText(title);
 		link.setOpaque(true);
 		link.setBackground(getTitleBackgroundColor());
