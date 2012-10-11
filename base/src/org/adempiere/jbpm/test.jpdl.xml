@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="test">
+	<start-state name="startTestFlow">
+		<transition to="taskNode" name="sendToTask"></transition>
+	</start-state>
+	
+	<task-node name="taskNode">
+		<task>
+			<assignment pooled-actors="GardenAdmin"></assignment>
+		</task>
+		<transition to="endTestFlow" name="omidTaskNode"></transition>
+	</task-node>
+	
+	<end-state name="endTestFlow"></end-state>
+</process-definition>
